@@ -1,6 +1,7 @@
 package com.synoptic.project.quiz.manager.model;
 
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,8 +24,10 @@ public class Quiz {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
   private Integer id;
 
+  @Column
   private String name;
 
   @ManyToMany(fetch = FetchType.EAGER)

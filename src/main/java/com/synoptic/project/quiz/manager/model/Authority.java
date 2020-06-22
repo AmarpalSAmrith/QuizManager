@@ -23,6 +23,7 @@ public class Authority {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
   private Integer id;
 
   @Column

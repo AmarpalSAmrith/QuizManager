@@ -26,6 +26,7 @@ public class Question {
   List<Quiz> quizzes;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
   private Integer id;
   @Column
   private String question;

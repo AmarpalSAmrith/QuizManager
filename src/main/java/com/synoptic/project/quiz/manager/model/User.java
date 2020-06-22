@@ -1,6 +1,5 @@
 package com.synoptic.project.quiz.manager.model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,6 +25,7 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
   private Integer id;
 
   @Column
@@ -34,12 +34,16 @@ public class User {
   @Column
   private String firstName;
 
+  @Column
   private String lastName;
 
+  @Column
   private String password;
 
+  @Column
   private Boolean active;
 
+  @Column
   private String email;
 
   @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
