@@ -18,7 +18,7 @@ public class QuizService {
     this.quizRepository = quizRepository;
   }
 
-  public Page<Quiz> getAllQuizzesOrderedByQuestions(Pageable pageable) {
+  public Page<Quiz> getAllQuizzesOrderedByName(Pageable pageable) {
     Page<Quiz> result = quizRepository.findAll(pageable);
     return result;
   }

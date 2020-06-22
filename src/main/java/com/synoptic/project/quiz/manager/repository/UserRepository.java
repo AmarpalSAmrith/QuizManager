@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-  @Query(value = "SELECT * FROM library_bookish.user WHERE CAST(id as CHAR) LIKE %?1%", nativeQuery = true)
-  Page<User> findByIdContaining(String searchValue, Pageable pageable);
+//  @Query(value = "SELECT * FROM quiz_manager.user WHERE CAST(id as CHAR) LIKE %?1%", nativeQuery = true)
+//  Page<User> findByIdContaining(String searchValue, Pageable pageable);
 
   Page<User> findByFirstNameContaining(String searchValue, Pageable pageable);
 
