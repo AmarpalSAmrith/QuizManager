@@ -28,6 +28,9 @@ public class Answer {
   @Column
   private String answer;
 
+  @Column
+  private boolean correctAnswer;
+
   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "question_id")
   private Question question;

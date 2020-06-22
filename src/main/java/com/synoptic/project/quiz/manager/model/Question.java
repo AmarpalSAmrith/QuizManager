@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,8 +29,10 @@ public class Question {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column
   private Integer id;
+
   @Column
   private String question;
+
   @OneToMany(mappedBy = "question")
   private List<Answer> answers;
 
