@@ -54,12 +54,13 @@ public class Pagination<T> {
   }
 
   public int getValidPageNumber(int pageNumber) {
+    if (pages.getTotalPages() > 0 && pageNumber > pages.getTotalPages()) {
+      isPaginationValid = false;
+      pageNumber = pages.getTotalPages();
+    }
     if (pageNumber < 1) {
       isPaginationValid = false;
-      return 1;
-    } else if (pageNumber > pages.getTotalPages()) {
-      isPaginationValid = false;
-      return pages.getTotalPages();
+      pageNumber = 1;
     }
     return pageNumber;
   }
@@ -68,9 +69,8 @@ public class Pagination<T> {
     if (!PageSize.isValid(pageSize)) {
       isPaginationValid = false;
       return PageSize.getNearestPageSize(pageSize);
-    } else {
-      return pageSize;
     }
+    return pageSize;
   }
 
   public List<T> getPagesList() {
@@ -131,11 +131,12 @@ public class Pagination<T> {
 
   public int getPageNumberForPageSize(int pageSize) {
     int maxPageNumber = (int) Math.ceil((double) pages.getTotalElements() / pageSize);
-    if (currentPageNumber > maxPageNumber) {
+    if (maxPageNumber < 1) {
+      return 1;
+    } else if (currentPageNumber > maxPageNumber) {
       return maxPageNumber;
-    } else {
-      return currentPageNumber;
     }
+    return currentPageNumber;
   }
 
 }

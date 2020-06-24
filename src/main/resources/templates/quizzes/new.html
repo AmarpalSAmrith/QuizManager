@@ -23,7 +23,7 @@
      th:remove="tag"></div>
 
 <div class="col-lg-7 col-md-12 mb-4 p-5 mx-auto">
-  <!-- Default form contact -->
+
   <div id="new-result-form" class="text-center border border-light p-5 indigo.accent-1 shadow-lg">
     <form th:object="${result}" th:action="@{${linkAction}}" method="post">
 
@@ -31,23 +31,22 @@
       <fieldset>
         <!-- Name -->
         <div
-            th:replace="fragments/input :: input-form(${ {'username', 'firstName', 'lastName', 'role'} }, false)"
+            th:replace="fragments/input :: input-form(${ {'name'} }, false)"
             th:remove="tag">...
         </div>
+
 
         <!-- Send button -->
         <div class="d-flex justify-content-center">
           <a class="btn btn-info m-2 w-100" onclick="history.go(-1)"
              th:text="#{button.back}">...</a>
           <button class="btn btn-info m-2 w-100" type="submit"
-                  th:text="#{__${'button.' + name + '.submit.add''}__}">...
+                  th:text="#{__${'button.' + name + '.submit.add'}__}">...
           </button>
         </div>
       </fieldset>
     </form>
-
   </div>
-  <!-- Default form contact -->
 </div>
 
 </body>

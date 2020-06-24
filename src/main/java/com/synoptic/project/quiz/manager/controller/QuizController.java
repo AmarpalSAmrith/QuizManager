@@ -1,7 +1,5 @@
 package com.synoptic.project.quiz.manager.controller;
 
-import static com.synoptic.project.quiz.manager.model.Pagination.getDefaultURL;
-
 import com.synoptic.project.quiz.manager.model.Pagination;
 import com.synoptic.project.quiz.manager.model.Question;
 import com.synoptic.project.quiz.manager.model.Quiz;
@@ -12,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,24 +53,26 @@ public class QuizController extends QuizManagerController<Quiz, Question> {
   @GetMapping(ROOT_QUIZ + HOME_URL + "{pageNumber}/{pageSize}")
   public ModelAndView getAllQuizzes(@PathVariable Integer pageNumber,
       @PathVariable Integer pageSize) {
-
     Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Direction.ASC, "name");
 
-    Page<Quiz> results;
+    Page<Quiz> results = quizService.getAllQuizzesOrderedByName(pageable);
     ModelAndView model = new ModelAndView(ROOT_FOLDER + INDEX_VIEW_NAME);
 
-    results = quizService.getAllQuizzesOrderedByName(pageable);
     return super.getAllQuizzes(model, ROOT_QUIZ, pageNumber, pageSize, results);
   }
 
   @GetMapping(ROOT_QUIZ + EDIT_URL + "{id}")
   public ModelAndView editQuiz(@PathVariable Integer id) {
-    return super.editResult(quizService.findQuizById(id).get(), ROOT_FOLDER + EDIT_VIEW_NAME,
+    Quiz quiz = quizService.findQuizById(id)
+        .orElseThrow(() -> new IllegalArgumentException("No Such Quiz Exists With ID: " + id));
+    return super.editResult(quiz,
+        ROOT_FOLDER + EDIT_VIEW_NAME,
         ROOT_QUIZ, Collections.singletonList("name"), QUIZ, ROOT_QUESTION,
-        questionService.getAllQuestions(), ROOT_QUIZ + EDIT_URL + ADD_QUESTION_URL);
+        questionService.getAllQuestions(), ROOT_QUIZ + ADD_QUESTION_URL,
+        ROOT_QUIZ + UPDATE_URL + ADD_QUIZ_NAME_URL);
   }
 
-  @GetMapping(ROOT_QUIZ + EDIT_URL + ADD_QUESTION_URL + "{quizId}")
+  @GetMapping(ROOT_QUIZ + ADD_QUESTION_URL + "{quizId}")
   public RedirectView addQuestionToQuiz(@PathVariable Integer quizId,
       @ModelAttribute(value = "addOption") Integer questionId) {
     //FIXME: should this be a post?
@@ -81,9 +82,9 @@ public class QuizController extends QuizManagerController<Quiz, Question> {
   }
 
   @GetMapping(ROOT_QUIZ + ADD_URL)
-  public ModelAndView addQuiz() {
+  public ModelAndView addQuiz(HttpSession session) {
     return super.addResult(ROOT_FOLDER + NEW_VIEW_NAME,
-        ROOT_QUIZ, new Quiz(), getFields(), QUIZ);
+        ROOT_QUIZ, new Quiz(), getFields(), QUIZ, ROOT_QUESTION);
   }
 
   @GetMapping(ROOT_QUIZ + VIEW_URL + "{id}")
@@ -94,22 +95,28 @@ public class QuizController extends QuizManagerController<Quiz, Question> {
   }
 
   @PostMapping(ROOT_QUIZ + UPDATE_URL + "{id}")
-  public RedirectView updateQuiz(@ModelAttribute Quiz quiz, @PathVariable int id) {
-    quizService.updateQuiz(quiz);
+  public RedirectView updateQuizQuestions(@ModelAttribute Quiz quiz, @PathVariable int id) {
+    quizService.updateQuizQuestions(quiz);
     return super.submitRedirect(ROOT_QUIZ + EDIT_URL + id);
   }
 
+  @PostMapping(ROOT_QUIZ + UPDATE_URL + ADD_QUIZ_NAME_URL + "{id}")
+  public RedirectView updateQuizName(@ModelAttribute Quiz quiz, @PathVariable Integer id) {
+    quizService.updateQuizName(quiz);
+    return submitRedirect(ROOT_QUIZ + EDIT_URL + id);
+  }
+
   @PostMapping(ROOT_QUIZ + ADD_URL)
-  public RedirectView createQuiz(@ModelAttribute Quiz quiz) {
+  public RedirectView createQuiz(@ModelAttribute Quiz quiz, HttpSession session) {
+    session.removeAttribute("quiz");
     Quiz newQuiz = quizService.createQuiz(quiz);
-    return submitRedirect(ROOT_QUIZ + VIEW_URL + newQuiz.getId());
+    return submitRedirect(ROOT_QUIZ + EDIT_URL + newQuiz.getId());
   }
 
   @PostMapping(ROOT_QUIZ + DELETE_URL + "{id}")
   public RedirectView deleteQuiz(@PathVariable int id) {
     //FIXME: not working at all ask Ruben
     quizService.deleteQuizById(id);
-    return submitRedirect(ROOT_QUIZ + HOME_URL + getDefaultURL());
+    return submitRedirect(ROOT_QUIZ);
   }
-
 }

@@ -2,6 +2,7 @@ package com.synoptic.project.quiz.manager.service;
 
 import com.synoptic.project.quiz.manager.model.Question;
 import com.synoptic.project.quiz.manager.model.Quiz;
+import com.synoptic.project.quiz.manager.repository.QuestionRepository;
 import com.synoptic.project.quiz.manager.repository.QuizRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,12 @@ public class QuizService {
 
   private final QuizRepository quizRepository;
 
+  private final QuestionRepository questionRepository;
+
   @Autowired
-  public QuizService(QuizRepository quizRepository) {
+  public QuizService(QuizRepository quizRepository, QuestionRepository questionRepository) {
     this.quizRepository = quizRepository;
+    this.questionRepository = questionRepository;
   }
 
   public Page<Quiz> getAllQuizzesOrderedByName(Pageable pageable) {
@@ -30,15 +34,24 @@ public class QuizService {
     return quizRepository.findById(id);
   }
 
-  public Quiz updateQuiz(Quiz quiz) {
-    List<Question> quizOptional = findQuizById(quiz.getId())
-        .orElseThrow(() -> new IllegalArgumentException("Incorrect ID given"))
-        .getQuestions();
+  public Quiz updateQuizQuestions(Quiz quiz) {
+    Quiz quizComplete = findQuizById(quiz.getId())
+        .orElseThrow(() -> new IllegalArgumentException("Incorrect ID given"));
+
+    List<Question> questions = quizComplete.getQuestions();
+
+    quiz.setName(quizComplete.getName());
     quiz.setQuestions(quiz.getQuestions().stream()
         .filter(i -> i.getId() != null)
-        .map(i -> quizOptional.get(quizOptional.indexOf(i)))
+        .map(i -> questions.get(questions.indexOf(i)))
         .collect(Collectors.toList()));
     return quizRepository.save(quiz);
+  }
+
+  public Quiz updateQuizName(Quiz quiz) {
+    Quiz quizComplete = quizRepository.getOne(quiz.getId());
+    quizComplete.setName(quiz.getName());
+    return quizRepository.save(quizComplete);
   }
 
   public Quiz createQuiz(Quiz quiz) {
@@ -51,13 +64,18 @@ public class QuizService {
     quizRepository.save(quiz);
   }
 
-  public void deleteQuizById(int id) {
+  public void deleteQuizById(Integer id) {
     Quiz quiz = findQuizById(id)
         .orElseThrow(() -> new IllegalArgumentException("Incorrect ID given"));
+    quiz.getQuestions().forEach(question -> {
+      question.setQuizzes(question.getQuizzes().stream()
+          .filter(quiz1 -> !quiz1.getId().equals(id))
+          .collect(Collectors.toList()));
+    });
+    quizRepository.save(quiz);
     quiz.setQuestions(new ArrayList<>());
     quizRepository.save(quiz);
-//    quizRepository.delete(quiz);
+    quizRepository.deleteById(id);
   }
-
 
 }

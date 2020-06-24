@@ -30,6 +30,7 @@ public abstract class QuizManagerController<T, S> {
   protected static final String VIEW_URL = "/view/";
   protected static final String ADD_URL = "/add";
   protected static final String ADD_QUESTION_URL = "add-question/";
+  protected static final String ADD_QUIZ_NAME_URL = "quiz-name/";
   //  ================== VIEW_NAME =============================
   protected static final String INDEX_VIEW_NAME = "/index";
   protected static final String NEW_VIEW_NAME = "/new";
@@ -59,7 +60,7 @@ public abstract class QuizManagerController<T, S> {
 
     Pagination<T> pagination = new Pagination<>(results, pageSize, pageNumber);
     if (!pagination.isPaginationValid()) {
-      return new ModelAndView("redirect:" + uri + "/" +
+      return new ModelAndView("redirect:" + uri + HOME_URL +
           pagination.getValidUrl());
     }
 
@@ -76,7 +77,7 @@ public abstract class QuizManagerController<T, S> {
   }
 
   public ModelAndView editResult(T result, String modelName, String linkAction, List<String> fields,
-      String name, String viewUri, List<S> allOptions, String addOptionAction) {
+      String name, String viewUri, List<S> allOptions, String addOptionAction, String linkActionTitle) {
 
     ModelAndView model = new ModelAndView(modelName);
     model.addObject("result", result);
@@ -89,17 +90,21 @@ public abstract class QuizManagerController<T, S> {
     model.addObject("listOfFields", fields);
     model.addObject("allOptions", allOptions);
     model.addObject("addOptionAction", addOptionAction);
+    model.addObject("linkActionTitle", linkActionTitle);
+
     return model;
   }
 
   public ModelAndView addResult(String modelName, String linkAction, T result,
-      List<String> fields, String name) {
+      List<String> fields, String name, String viewUri) {
 
     ModelAndView model = new ModelAndView(modelName);
     model.addObject("result", result);
     model.addObject("name", name);
 //    model.addObject("urlList");
     model.addObject("linkAction", linkAction + ADD_URL);
+    model.addObject("viewUri", viewUri + VIEW_URL);
+    model.addObject("homeUri", linkAction);
     model.addObject("formType", "add");
     model.addObject("listOfFields", fields);
     return model;
