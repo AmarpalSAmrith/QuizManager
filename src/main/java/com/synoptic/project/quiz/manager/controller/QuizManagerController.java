@@ -55,7 +55,7 @@ public abstract class QuizManagerController<T, S> {
         .collect(Collectors.toList());
   }
 
-  public ModelAndView getAllQuizzes(ModelAndView model, String uri, Integer pageNumber,
+  public ModelAndView getAllResults(ModelAndView model, String uri, Integer pageNumber,
       Integer pageSize, Page<T> results) {
 
     Pagination<T> pagination = new Pagination<>(results, pageSize, pageNumber);
@@ -64,7 +64,6 @@ public abstract class QuizManagerController<T, S> {
           pagination.getValidUrl());
     }
 
-    model.addObject("searchAction", uri + HOME_URL + pagination.getValidUrl());
     model.addObject("pagination", pagination);
     model.addObject("uri", uri + "/home");
     model.addObject("viewUri", uri + VIEW_URL);
@@ -72,17 +71,16 @@ public abstract class QuizManagerController<T, S> {
     model.addObject("editUri", uri + EDIT_URL);
     model.addObject("addUri", uri + ADD_URL);
     model.addObject("root", uri);
-    pagination.getPagesList().isEmpty();
     return model;
   }
 
   public ModelAndView editResult(T result, String modelName, String linkAction, List<String> fields,
-      String name, String viewUri, List<S> allOptions, String addOptionAction, String linkActionTitle) {
+      String name, String viewUri, List<S> allOptions, String addOptionAction,
+      String linkActionTitle) {
 
     ModelAndView model = new ModelAndView(modelName);
     model.addObject("result", result);
     model.addObject("name", name);
-//    model.addObject("urlList", "");
     model.addObject("formType", "edit");
     model.addObject("linkAction", linkAction + UPDATE_URL);
     model.addObject("viewUri", viewUri + VIEW_URL);
@@ -101,7 +99,6 @@ public abstract class QuizManagerController<T, S> {
     ModelAndView model = new ModelAndView(modelName);
     model.addObject("result", result);
     model.addObject("name", name);
-//    model.addObject("urlList");
     model.addObject("linkAction", linkAction + ADD_URL);
     model.addObject("viewUri", viewUri + VIEW_URL);
     model.addObject("homeUri", linkAction);
@@ -115,7 +112,6 @@ public abstract class QuizManagerController<T, S> {
     ModelAndView model = new ModelAndView(modelName);
     model.addObject("result", result);
     model.addObject("name", name);
-//    model.addObject("urlList");
     model.addObject("formType", "view");
     model.addObject("linkAction", linkAction + EDIT_URL);
     model.addObject("homeUri", linkAction);

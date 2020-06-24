@@ -54,11 +54,9 @@ public class QuizController extends QuizManagerController<Quiz, Question> {
   public ModelAndView getAllQuizzes(@PathVariable Integer pageNumber,
       @PathVariable Integer pageSize) {
     Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Direction.ASC, "name");
-
     Page<Quiz> results = quizService.getAllQuizzesOrderedByName(pageable);
     ModelAndView model = new ModelAndView(ROOT_FOLDER + INDEX_VIEW_NAME);
-
-    return super.getAllQuizzes(model, ROOT_QUIZ, pageNumber, pageSize, results);
+    return super.getAllResults(model, ROOT_QUIZ, pageNumber, pageSize, results);
   }
 
   @GetMapping(ROOT_QUIZ + EDIT_URL + "{id}")
