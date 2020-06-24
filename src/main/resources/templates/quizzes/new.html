@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{title.new}"></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <link rel="stylesheet" type="text/css" href="/css/index.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="icon" type="image/x-icon" href="/img/favicon.ico"/>
+</head>
+
+<body>
+
+<div th:replace="fragments/title :: title" th:remove="tag"></div>
+
+<div th:replace="fragments/nav :: navbar(${#httpServletRequest.requestURI})"
+     th:remove="tag"></div>
+
+<div class="col-lg-7 col-md-12 mb-4 p-5 mx-auto">
+  <!-- Default form contact -->
+  <div id="new-result-form" class="text-center border border-light p-5 indigo.accent-1 shadow-lg">
+    <form th:object="${result}" th:action="@{${linkAction}}" method="post">
+
+      <p class="h4 mb-4" th:text="#{__${'title.' + name + '.new'}__}">...</p>
+      <fieldset>
+        <!-- Name -->
+        <div
+            th:replace="fragments/input :: input-form(${ {'username', 'firstName', 'lastName', 'role'} }, false)"
+            th:remove="tag">...
+        </div>
+
+        <!-- Send button -->
+        <div class="d-flex justify-content-center">
+          <a class="btn btn-info m-2 w-100" onclick="history.go(-1)"
+             th:text="#{button.back}">...</a>
+          <button class="btn btn-info m-2 w-100" type="submit"
+                  th:text="#{__${'button.' + name + '.submit.add''}__}">...
+          </button>
+        </div>
+      </fieldset>
+    </form>
+
+  </div>
+  <!-- Default form contact -->
+</div>
+
+</body>
+</html>

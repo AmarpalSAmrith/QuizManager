@@ -28,11 +28,17 @@ public class Question {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column
   private Integer id;
-
   @Column
   private String question;
-
   @OneToMany(mappedBy = "question")
   private List<Answer> answers;
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof Question) {
+      return ((Question) obj).id.equals(this.id);
+    }
+    return super.equals(obj);
+  }
 
 }

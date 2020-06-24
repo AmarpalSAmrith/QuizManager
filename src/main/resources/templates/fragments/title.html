@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css"
+      href="/css/index.css"/>
+
+<div th:fragment="title">
+  <div id="title-background" class="pb-5 text-left">
+    <div class="d-flex justify-content-center">
+      <h1 class="text-left pt-3 pb-1 h1" th:text="#{title.main}">...</h1>
+      <div class="pb-3"></div>
+    </div>
+    <div class="pb-5"></div>
+  </div>
+</div>

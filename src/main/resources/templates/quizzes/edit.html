@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{__${'title.' + name + '.' + formType}__}"></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <link rel="stylesheet" type="text/css" href="/css/index.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <link rel="icon" type="image/x-icon" href="/img/favicon.ico"/>
+  <script>
+
+  </script>
+</head>
+
+<body>
+
+<div th:replace="fragments/title :: title" th:remove="tag"></div>
+
+<div th:replace="fragments/nav :: navbar(${#httpServletRequest.requestURI})"
+     th:remove="tag"></div>
+
+<div class="col-lg-7 col-md-12 mb-4 p-5 mx-auto">
+  <!-- Default form contact -->
+  <div id="new-result-form" class="text-center border border-light p-5 indigo.accent-1 shadow-lg">
+
+    <form th:object="${result}" th:action="@{__${linkAction + '{id}'}__(id=*{id})}" method="post">
+      <div class="question-container">
+        <p class="h4 mb-4" th:text="#{__${'title.' + name + '.' + formType}__}">...</p>
+        <div
+            th:replace="fragments/input :: input-form(${listOfFields}, ${formType == 'view'})"
+            th:remove="tag">...
+        </div>
+      </div>
+      <div class="question-container my-3">
+        <p class="h3 mb-4" th:text="#{title.delete.questions}"></p>
+        <div id="question-table" class="overflow-auto" style="height: 400px">
+          <table id="edit-table" class="w-100">
+            <tbody class="colored-hover allResults">
+            <tr th:each="question, iter : *{questions}" th:id="${'result-' + iter.index}">
+              <td th:with="row = *{questions[__${iter.index}__]}" style="width: 650px">
+                <a th:text="${row.question}" th:href="${viewUri + question.id}"></a>
+                <input th:field="*{questions[__${iter.index}__].id}"
+                       th:name="*{questions[__${iter.index}__].id}"
+                       hidden="hidden">
+              </td>
+              <td th:if="${formType == 'edit'}">
+                <a class="add-records-button row-link"
+                   th:onclick="|myFunction('result-${iter.index}')|"
+                   th:text="#{button.delete.question}">...</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- Send button -->
+        <div class="d-flex justify-content-center pt-2" th:if="${formType != 'view'}">
+          <button class="btn btn-info m-2 w-75" type="submit"
+                  th:text="#{${'button.' + name + '.submit.' + formType}}">...
+          </button>
+
+        </div>
+      </div>
+    </form>
+
+    <div th:id="add-question-container" class="question-container" th:if="${formType != 'view'}">
+      <p class="h4 my-4" th:text="#{title.add.questions}"></p>
+      <form th:action="@{__${addOptionAction + '{id}'}__(id=*{id})}">
+        <select class="form-control add-option-field" id="add-options" name="addOption">
+          <option th:each="option : ${allOptions}" th:value="${option.id}"
+                  th:text="${option.question}">...
+          </option>
+        </select>
+
+        <div class="d-flex justify-content-center">
+          <div class="w-100">
+            <button type="submit" class="btn btn-info m-2 w-75"
+                    th:text="#{text.add.question}"></button>
+
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+    <div th:if="${formType != 'view'}" class="w-100 px-3 pt-2">
+      <a class="btn btn-info m-2 w-75" th:text="#{button.back}" th:href="${homeUri}">
+        ...
+      </a>
+    </div>
+    <div th:unless="${formType != 'view'}" class="d-flex justify-content-center">
+
+      <a class="btn btn-info m-2 w-100" th:href="${homeUri}" th:text="#{button.back}">...</a>
+
+      <a class="btn btn-info m-2 w-100"
+         th:href="@{${linkAction + result.id}}"
+         th:text="#{${'button.' + name + '.submit.' + formType}}">...
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

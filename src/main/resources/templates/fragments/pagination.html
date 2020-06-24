@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="pagination(pagination, uri)">
+  <nav class="navbar w-75 mx-auto shadow p-1 rounded" aria-label="...">
+    <div class="d-flex p-1 justify-content-between w-100">
+
+      <div class="d-flex pl-3 w-75 align-items-center"><!--=========Page Sizes============-->
+        <div class="dropdown ml-0">
+          <button class="btn btn-secondary dropdown-toggle bg-primary" type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                  th:text="#{text.page.dropdown} + ${' ' + pagination.currentPageSize}">
+            ...
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" th:each="size : ${pagination.pageSizesAndUrls}"
+               th:href="@{${uri + '/' + size.value}}"
+               th:text="${size.key}"
+               th:classappend="${pagination.currentPageSize == size.key} ? 'active'">...</a>
+          </div>
+        </div>
+      </div>
+
+      <!--============================================ Page numbers ===================================-->
+      <div class="d-flex flex-column w-75 justify-content-center">
+        <ul class="pagination mx-auto" th:object="${pagination}">
+
+          <!--==========Previous===========-->
+
+          <li class="page-item" th:classappend="${!pagination.isPreviousAvailable()} ? 'disabled'">
+            <a class="page-link" th:text="#{text.previous}"
+               th:href="@{__${
+             uri + '/' +
+             pagination.previousPageNumber + '/' +
+             pagination.currentPageSize
+           }__}"></a>
+          </li>
+
+          <li class="page-item" th:if="${pagination.notFirstPage}">
+            <a class="page-link" th:href="@{__${
+               uri + '/1/' +
+               pagination.currentPageSize
+           }__}" th:text="'1'"
+            ></a>
+          </li>
+
+          <li class="page-item disabled" th:if="${pagination.notFirstPage}">
+            <a class="page-link">...</a>
+          </li>
+
+          <li class="page-item" th:each="item : ${pagination.listOfPageNumbers}"
+              th:classappend="${item == pagination.currentPageNumber} ? 'active'">
+            <a class="page-link" th:href="@{__${
+               uri + '/' +
+               item + '/' +
+               pagination.currentPageSize
+           }__}"
+               th:text="${item}"
+            ></a>
+          </li>
+
+          <li class="page-item disabled" th:if="${pagination.notLastPage}">
+            <a class="page-link">...</a>
+          </li>
+
+          <li class="page-item" th:if="${pagination.notLastPage}">
+            <a class="page-link" th:href="@{__${
+               uri + '/'+ pagination.pages.totalPages + '/' +
+               pagination.currentPageSize
+           }__}" th:text="${pagination.pages.totalPages}"
+            ></a>
+          </li>
+
+          <li class="page-item" th:classappend="${!pagination.isNextAvailable()} ? 'disabled'">
+            <a class="page-link" th:text="#{text.next}"
+               th:href="@{__${
+             uri + '/' +
+             pagination.nextPageNumber + '/' +
+             pagination.currentPageSize
+           }__}">
+              Next</a>
+          </li>
+        </ul>
+
+        <p class="h6 text-center">Showing [[${pagination.currentRecordsDisplayed}]] of
+          [[${pagination.pages.totalElements}]]
+          results</p>
+      </div>
+    </div>
+  </nav>
+</div>

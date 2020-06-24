@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="input-core(fieldName, text, formType, class, type)" th:remove="tag">
+  <input th:type="${type}" th:for="${fieldName}" th:id="${fieldName}" th:name="${fieldName}"
+         th:field="*{__${fieldName}__}"
+         th:class="${class}"
+         th:placeholder="${text}"
+         th:disabled="${formType}"/>
+</div>
+
+<div th:fragment="input-disable-option(fieldName, text, formType)">
+  <div
+      th:replace=" :: input-disable-option-custom-class(${fieldName}, ${text}, ${formType}, 'form-control mb-4', 'text')"
+      th:remove="tag"></div>
+</div>
+
+<div th:fragment="input-disable-option-custom-class(fieldName, text, formType, class, type)">
+  <div th:replace=" :: input-core(${fieldName}, ${text}, ${formType},${class},${type})"
+       th:remove="tag"></div>
+</div>
+
+<div th:fragment="input-password(fieldName, text, formType)" th:remove="tag">
+  <div class="flex-fill">
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.onload = function () {
+        onloadFunction(); // Call your favourite method if the variable is true
+      };
+      /*]]>*/
+    </script>
+
+    <input type="text" class="form-control" style="display: none"
+           th:for="${fieldName}" th:id="${fieldName}" th:name="${fieldName}"
+           th:value="*{__${fieldName}__}"
+           th:placeholder="#{__${'text.' + fieldName}__}"
+           th:disabled="${formType}"
+    >
+  </div>
+</div>
+
+<div th:fragment="input-pure(fieldName, text)">
+  <div th:replace=" :: input-disable-option(${fieldName}, ${text}, false)" th:remove="tag"></div>
+</div>
+
+<div th:fragment="input-form(fields, formType)">
+
+  <fieldset>
+    <th:block th:each="field : ${fields}" th:remove="tag">
+
+      <div
+          th:replace=" :: input-disable-option(${field}, #{__${'text.' + field}__}, ${formType})"
+          th:remove="tag">...
+      </div>
+
+    </th:block>
+
+  </fieldset>
+</div>

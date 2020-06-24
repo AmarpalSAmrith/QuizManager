@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import javax.persistence.CascadeType;
 
 @Entity
 @Data
@@ -30,7 +31,7 @@ public class Quiz {
   @Column
   private String name;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinTable(
       name = "quiz_questions",
       joinColumns = @JoinColumn(name = "quiz_id"),

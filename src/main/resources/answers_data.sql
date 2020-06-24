@@ -1,10 +1,10 @@
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Hanukkah', false, 1);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('6', false, 2);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Ron Weasley', false, 3);
+INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Severus Snape', false, 3);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Red', true, 4);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('King Harvest', false, 5);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Dragon', false, 6);
-INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('China', false, 7);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Venus', true, 8);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Herbert Hoover', false, 9);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Dooms', false, 10);
@@ -21,6 +21,7 @@ INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Ra
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('206', true, 21);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Harry Styles', true, 22);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Zinc', false, 23);
+INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Cobalt', false, 23);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('12', true, 24);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Chinese', true, 25);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('1958', false, 26);
@@ -29,7 +30,9 @@ INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Ch
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('1', false, 29);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Shakespeare', false, 30);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Myspace', true, 31);
+INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Bebo', true, 31);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Jupiter', true, 32);
+INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Mecury', true, 32);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Red, yellow, green', false, 33);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('One Direction', false, 34);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Picasso', false, 35);
@@ -51,6 +54,7 @@ INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Fa
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Elton John', true, 51);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('0', false, 52);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Snow White', false, 53);
+INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Princess Jasmin', false, 53);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Jesus’ entry into Jerusalem', true, 54);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Ron', false, 55);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('4', false, 56);
@@ -215,6 +219,7 @@ INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('32
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Charlie Brown', false, 64);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('bushes', false, 65);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Budapest', true, 66);
+INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Paris', true, 66);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Obama', false, 67);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Under', false, 68);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Iowa', false, 69);

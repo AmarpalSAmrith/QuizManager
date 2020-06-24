@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:fragment="dynamic-table-core(columnHeading, columnHeadingText, columnWidth, tableBody, tableBodyAvailable,
+                                     editUri, deleteUri, viewURi, buttonWidth, numberOfQuestions, quiz)">
+
+  <div class="table-container w-75 mx-auto">
+    <th:block th:if="${!tableBodyAvailable}">
+      <div id="table-head-container">
+        <table class="mx-auto w-100">
+          <thead>
+          <tr>
+            <p th:text="${columnWidth}"></p>
+            <th scope="col"
+                th:each="heading,iter : ${columnHeadingText}"
+                th:style="${columnWidth != null ? columnWidth[iter.index] : 'width:700px'}"
+                th:text="#{__${'table.heading.' + heading}__}">...
+            </th>
+            <th th:if="${numberOfQuestions}" th:text="#{text.numberOfQuestions}"
+                style="width: 200px"></th>
+            <th scope="col" th:if="${editUri != null}" th:style="${buttonWidth}"></th>
+            <th scope="col" th:if="${deleteUri != null}" th:style="${buttonWidth}"></th>
+          </tr>
+          </thead>
+        </table>
+      </div>
+
+      <div class="overflow-auto" id="table-body-container">
+        <table class="mx-auto w-100">
+          <tbody class="colored-hover allResults">
+
+          <tr th:each="result,iter : ${tableBody}" th:with="view=${viewUri + result.id}"
+              th:id="${'row-' + iter.index}">
+
+            <td th:each="column,iter : ${columnHeading}"
+                th:style="${columnWidth != null ? columnWidth[iter.index] : 'width:700px'}">
+
+              <th:block>
+                <a class="row-link" th:href="@{${view}}" th:text="${__${'result.' + column}__}">
+                </a>
+              </th:block>
+
+            </td>
+            <td th:if="${quiz}">
+              <a class="row-link" th:href="@{${view}}"
+                 th:text="${result.getQuestions().size()}">
+              </a>
+            </td>
+
+            <td class="button-cell" th:if="${editUri != null}" th:style="${buttonWidth}">
+              <a class="add-records-button row-link" th:href="@{${editUri + result.id}}"
+                 th:text="#{table.heading.edit}">
+              </a>
+            </td>
+
+            <td class="button-cell" th:if="${deleteUri!= null}" th:style="${buttonWidth}">
+              <form method="post" th:action="@{${deleteUri + result.id}}">
+                <button class="add-records-button" th:text="#{table.heading.delete}" type="submit">
+                  ...
+                </button>
+              </form>
+            </td>
+
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </th:block>
+    <p class="text-primary" th:text="#{text.noResults}"
+       th:unless="${!pagination.pagesList.isEmpty()}"></p>
+  </div>
+</th:block>
+
+<th:block th:fragment="dynamic-table-quiz(columnHeading, columnHeadingText, columnWidth,
+                                      tableBody, tableBodyAvailable,
+                                     editUri, deleteUri, viewURi, buttonWidth, numberOfQuestions)">
+  <th:block th:replace=" :: dynamic-table-core(${columnHeading}, ${columnHeadingText},
+                                     ${columnWidth}, ${tableBody}, ${tableBodyAvailable},
+                                     ${editUri}, ${deleteUri}, ${viewURi}, ${buttonWidth}, ${numberOfQuestions}, true)">
+    ..
+  </th:block>
+</th:block>

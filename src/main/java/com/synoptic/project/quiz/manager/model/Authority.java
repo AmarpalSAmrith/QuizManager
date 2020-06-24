@@ -1,6 +1,7 @@
 package com.synoptic.project.quiz.manager.model;
 
 import java.util.List;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +30,7 @@ public class Authority {
   @Column
   private String authority;
 
-  @ManyToMany(mappedBy = "authorities", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  @ManyToMany(mappedBy = "authorities")
   private List<User> users;
 
 }

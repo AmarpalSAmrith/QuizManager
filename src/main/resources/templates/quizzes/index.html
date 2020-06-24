@@ -3,10 +3,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>All Quizzes</title>
+  <title th:text="#{text.allQuiz}"></title>
+  <link rel="stylesheet" type="text/css" href="/css/index.css"/>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <link rel="icon" type="image/x-icon" href="/img/favicon.ico"/>
+  </link>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
 </head>
 <body>
-<h1>All Quizzes</h1>
-<p th:text="${pagination}"></p>
+<div th:replace="fragments/title :: title" th:remove="tag"></div>
+
+<div th:replace="fragments/nav :: navbar(${#httpServletRequest.requestURI})"
+     th:remove="tag"></div>
+
+<!--<div class="form-container mx-auto">-->
+<!--<a id="toggleBut  tonHide" class="add-records-button" onclick="myFunctionHide()"-->
+<!--th:text="#{text.hide}">Click Me</a>-->
+
+<!--<a style="display: none" id="toggleButtonUnHide" class="add-records-button" onclick="myFunctionHide()"-->
+<!--th:text="#{text.unhide}">Click Me</a>-->
+<!--</div>-->
+
+<div class="pt-5">
+
+  <div
+      th:replace="fragments/pagination :: pagination(${pagination}, ${uri})"
+      th:remove="tag">...
+  </div>
+
+  <div th:replace="fragments/table :: dynamic-table-quiz(
+            columnHeading=${ {'getName()'} },
+            columnHeadingText=${ {'name'} },
+            columnWidth=null,
+            tableBody=${pagination.getPagesList()},
+            tableBodyAvailable=${pagination.getPagesList().isEmpty()},
+            editUri=${editUri},
+            deleteUri=${deleteUri},
+            viewURi=${viewUri},
+            buttonWidth=${'width: 150px'},
+            numberOfQuestions=true
+            )"
+       th:remove="tag">...
+  </div>
+
+</div>
+<div class="form-container mx-auto">
+  <a class="add-records-button mx-auto" th:href="@{${addUri}}" th:text="#{button.quiz.add}"></a>
+</div>
 </body>
 </html>

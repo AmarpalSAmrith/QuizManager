@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface QuizRepository extends JpaRepository<Quiz, Integer> {
 
-  @Query(value = "SELECT * FROM quiz_manager.user WHERE CAST(id as CHAR) LIKE %?1%", nativeQuery = true)
+  @Query(value = "SELECT * FROM quiz_manager.quiz WHERE CAST(id as CHAR) LIKE %?1%", nativeQuery = true)
   Page<Quiz> findByIdContaining(String id, Pageable pageable);
 
   Page<Quiz> findByNameContaining(String name, Pageable pageable);
