@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<th:block th:fragment="dynamic-table-core(columnHeading, columnHeadingText, columnWidth, tableBody, tableBodyAvailable,
-                                     editUri, deleteUri, viewURi, buttonWidth, numberOfQuestions, quiz)">
+<th:block th:fragment="dynamic-table-core(columnHeading, columnHeadingText, columnWidth, tableBody,
+                                          tableBodyAvailable, editUri, deleteUri, viewURi, buttonWidth,
+                                          quiz, question, answersIteration)">
 
   <div class="table-container w-75 mx-auto">
     <th:block th:if="${!tableBodyAvailable}">
@@ -10,16 +11,16 @@
         <table class="mx-auto w-100">
           <thead>
           <tr>
-            <p th:text="${columnWidth}"></p>
-            <th scope="col"
+            <th scope="col" colspan="1"
                 th:each="heading,iter : ${columnHeadingText}"
                 th:style="${columnWidth != null ? columnWidth[iter.index] : 'width:700px'}"
                 th:text="#{__${'table.heading.' + heading}__}">...
             </th>
-            <th th:if="${numberOfQuestions}" th:text="#{text.numberOfQuestions}"
-                style="width: 200px"></th>
-            <th scope="col" th:if="${editUri != null}" th:style="${buttonWidth}"></th>
-            <th scope="col" th:if="${deleteUri != null}" th:style="${buttonWidth}"></th>
+            <th th:if="${question}" th:text="#{table.heading.answers}" colspan="5" style="width: 200px"></th>
+
+            <th th:if="${quiz}" th:text="#{text.numberOfQuestions}" style="width: 200px" colspan="1"></th>
+            <th scope="col" th:if="${editUri != null}" th:style="${buttonWidth}" colspan="1"></th>
+            <th scope="col" th:if="${deleteUri != null}" th:style="${buttonWidth}" colspan="1"></th>
           </tr>
           </thead>
         </table>
@@ -32,7 +33,7 @@
           <tr th:each="result,iter : ${tableBody}" th:with="view=${viewUri + result.id}"
               th:id="${'row-' + iter.index}">
 
-            <td th:each="column,iter : ${columnHeading}"
+            <td th:each="column, iter : ${columnHeading}"
                 th:style="${columnWidth != null ? columnWidth[iter.index] : 'width:700px'}">
 
               <th:block>
@@ -41,6 +42,15 @@
               </th:block>
 
             </td>
+
+            <td th:if="${question}" th:each="iteration : ${answersIteration}">
+              <a class="row-link" th:href="@{${view}}"
+                 th:text="${result.getAnswers().size() > iteration} ?
+                          ${iteration + 1} + '. ' + ${result.getAnswers().get(iteration).getAnswer()} :
+                          null">
+              </a>
+            </td>
+
             <td th:if="${quiz}">
               <a class="row-link" th:href="@{${view}}"
                  th:text="${result.getQuestions().size()}">
@@ -74,10 +84,29 @@
 
 <th:block th:fragment="dynamic-table-quiz(columnHeading, columnHeadingText, columnWidth,
                                       tableBody, tableBodyAvailable,
-                                     editUri, deleteUri, viewURi, buttonWidth, numberOfQuestions)">
-  <th:block th:replace=" :: dynamic-table-core(${columnHeading}, ${columnHeadingText},
-                                     ${columnWidth}, ${tableBody}, ${tableBodyAvailable},
-                                     ${editUri}, ${deleteUri}, ${viewURi}, ${buttonWidth}, ${numberOfQuestions}, true)">
+                                     editUri, deleteUri, viewURi, buttonWidth)">
+  <th:block
+      th:replace=" :: dynamic-table-core(columnHeading=${columnHeading}, columnHeadingText=${columnHeadingText},
+                                         columnWidth=${columnWidth}, tableBody=${tableBody},
+                                         tableBodyAvailable=${tableBodyAvailable},editUri=${editUri},
+                                         deleteUri=${deleteUri}, viewURi=${viewURi}, buttonWidth=${buttonWidth},
+                                         quiz=true, question=false,
+                                         answersIteration = null)">
+    ..
+  </th:block>
+</th:block>
+
+<th:block th:fragment="dynamic-table-question(columnHeading, columnHeadingText, columnWidth,
+                                      tableBody, tableBodyAvailable,
+                                     editUri, deleteUri, viewURi, buttonWidth, answersIteration)">
+
+  <th:block
+      th:replace=" :: dynamic-table-core(columnHeading=${columnHeading}, columnHeadingText=${columnHeadingText},
+                                         columnWidth=${columnWidth}, tableBody=${tableBody},
+                                         tableBodyAvailable=${tableBodyAvailable},editUri=${editUri},
+                                         deleteUri=${deleteUri}, viewURi=${viewURi},buttonWidth=${buttonWidth},
+                                         quiz=false, question=true,
+                                         answersIteration = ${answersIteration})">
     ..
   </th:block>
 </th:block>

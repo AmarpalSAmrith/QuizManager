@@ -24,14 +24,6 @@
 <div th:replace="fragments/nav :: navbar(${#httpServletRequest.requestURI})"
      th:remove="tag"></div>
 
-<!--<div class="form-container mx-auto">-->
-<!--<a id="toggleBut  tonHide" class="add-records-button" onclick="myFunctionHide()"-->
-<!--th:text="#{text.hide}">Click Me</a>-->
-
-<!--<a style="display: none" id="toggleButtonUnHide" class="add-records-button" onclick="myFunctionHide()"-->
-<!--th:text="#{text.unhide}">Click Me</a>-->
-<!--</div>-->
-
 <div class="pt-5">
 
   <div
@@ -39,17 +31,17 @@
       th:remove="tag">...
   </div>
 
-  <div th:replace="fragments/table :: dynamic-table-quiz(
-            columnHeading=${ {'getName()'} },
-            columnHeadingText=${ {'name'} },
-            columnWidth=null,
+  <div th:replace="fragments/table :: dynamic-table-question(
+            columnHeading=${ {'getQuestion()'} },
+            columnHeadingText=${ {'question'} },
+            columnWidth=${ {'width: 300px'} },
             tableBody=${pagination.getPagesList()},
             tableBodyAvailable=${pagination.getPagesList().isEmpty()},
             editUri=${editUri},
             deleteUri=${deleteUri},
             viewURi=${viewUri},
             buttonWidth=${'width: 150px'},
-            numberOfQuestions=true
+            answersIteration=${answersIteration}
             )"
        th:remove="tag">...
   </div>
