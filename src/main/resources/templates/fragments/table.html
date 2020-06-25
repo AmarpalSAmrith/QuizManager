@@ -36,17 +36,15 @@
             <td th:each="column, iter : ${columnHeading}"
                 th:style="${columnWidth != null ? columnWidth[iter.index] : 'width:700px'}">
 
-              <th:block>
                 <a class="row-link" th:href="@{${view}}" th:text="${__${'result.' + column}__}">
                 </a>
-              </th:block>
 
             </td>
 
-            <td th:if="${question}" th:each="iteration : ${answersIteration}">
+            <td th:if="${question}" th:each="letter, iter : ${answersIteration}">
               <a class="row-link" th:href="@{${view}}"
-                 th:text="${result.getAnswers().size() > iteration} ?
-                          ${iteration + 1} + '. ' + ${result.getAnswers().get(iteration).getAnswer()} :
+                 th:text="${result.getAnswers().size() > iter.index} ?
+                          ${letter} + '. ' + ${result.getAnswers().get(iter.index).getAnswer()} :
                           null">
               </a>
             </td>

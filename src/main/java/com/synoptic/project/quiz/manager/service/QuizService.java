@@ -2,7 +2,6 @@ package com.synoptic.project.quiz.manager.service;
 
 import com.synoptic.project.quiz.manager.model.Question;
 import com.synoptic.project.quiz.manager.model.Quiz;
-import com.synoptic.project.quiz.manager.repository.QuestionRepository;
 import com.synoptic.project.quiz.manager.repository.QuizRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +17,9 @@ public class QuizService {
 
   private final QuizRepository quizRepository;
 
-  private final QuestionRepository questionRepository;
-
   @Autowired
-  public QuizService(QuizRepository quizRepository, QuestionRepository questionRepository) {
+  public QuizService(QuizRepository quizRepository) {
     this.quizRepository = quizRepository;
-    this.questionRepository = questionRepository;
   }
 
   public Page<Quiz> getAllQuizzesOrderedByName(Pageable pageable) {
@@ -67,15 +63,20 @@ public class QuizService {
   public void deleteQuizById(Integer id) {
     Quiz quiz = findQuizById(id)
         .orElseThrow(() -> new IllegalArgumentException("Incorrect ID given"));
+
     quiz.getQuestions().forEach(question -> {
-      question.setQuizzes(question.getQuizzes().stream()
-          .filter(quiz1 -> !quiz1.getId().equals(id))
-          .collect(Collectors.toList()));
-    });
+          question.setQuizzes(question.getQuizzes().stream()
+              .filter(quiz1 -> !quiz1.getId().equals(id))
+              .collect(Collectors.toList()));
+        }
+    );
     quizRepository.save(quiz);
     quiz.setQuestions(new ArrayList<>());
     quizRepository.save(quiz);
     quizRepository.deleteById(id);
   }
 
+  public void deleteQuestionFromQuiz(Integer id) {
+
+  }
 }

@@ -40,7 +40,7 @@
   </fieldset>
 </div>
 
-<div th:fragment="input-group-radio(fieldName, radioFieldName, idFieldName, text, formType, checkboxId, deleteLinkAction)">
+<div th:fragment="input-group-answer(fieldName, radioFieldName, idFieldName, text, formType, checkboxId, deleteLinkAction, prependText)">
   <script>
 
   </script>
@@ -51,6 +51,9 @@
         <input type="checkbox" class="answer-checkbox" th:field="*{__${radioFieldName}__}" aria-label="Radio button for following text input"
                th:value="*{__${radioFieldName}__}" th:disabled="${formType}" th:id="${checkboxId}">
       </div>
+      <div class="input-group-text">
+        <span th:text="${prependText + '.'}"></span>
+      </div>
     </div>
 
     <input type="hidden" th:field="*{__${idFieldName}__}">
@@ -59,7 +62,7 @@
            aria-label="Text input with radio button" th:disabled="${formType}">
 
     <div class="input-group-append" th:if="${!formType}">
-      <a class="btn btn-outline-secondary button-delete-answer" th:href="@{${deleteLinkAction}}" th:text="#{button.delete.answer}"></a>
+      <a class="btn btn-outline-secondary input-group-text" th:href="@{${deleteLinkAction}}" th:text="#{button.delete.answer}"></a>
     </div>
   </div>
 </div>

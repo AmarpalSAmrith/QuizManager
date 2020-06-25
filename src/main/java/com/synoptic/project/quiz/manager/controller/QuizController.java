@@ -39,12 +39,6 @@ public class QuizController extends QuizManagerController<Quiz, Question> {
     this.questionService = questionService;
   }
 
-  private static List<String> getFields() {
-    return Arrays.stream(Quiz.class.getDeclaredFields())
-        .map(Field::getName)
-        .collect(Collectors.toList());
-  }
-
   @GetMapping(ROOT_QUIZ)
   public RedirectView getQuizHomePage() {
     return super.submitRedirect(ROOT_QUIZ + HOME_URL + Pagination.getDefaultURL());
@@ -80,7 +74,7 @@ public class QuizController extends QuizManagerController<Quiz, Question> {
   @GetMapping(ROOT_QUIZ + ADD_URL)
   public ModelAndView addQuiz(HttpSession session) {
     return super.addResult(ROOT_FOLDER + NEW_VIEW_NAME,
-        ROOT_QUIZ, new Quiz(), getFields(), QUIZ, ROOT_QUESTION);
+        ROOT_QUIZ, new Quiz(), QUIZ, ROOT_QUESTION);
   }
 
   @GetMapping(ROOT_QUIZ + VIEW_URL + "{id}")

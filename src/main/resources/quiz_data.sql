@@ -151,3 +151,4 @@ INSERT INTO quiz_manager.quiz_questions(quiz_id, question_id) VALUES (1, 148);
 INSERT INTO quiz_manager.quiz_questions(quiz_id, question_id) VALUES (1, 149);
 INSERT INTO quiz_manager.quiz_questions(quiz_id, question_id) VALUES (1, 150);
 INSERT INTO quiz_manager.quiz_questions(quiz_id, question_id) VALUES (1, 151);
+INSERT INTO quiz_manager.quiz_questions(quiz_id, question_id) VALUES (1, 152);

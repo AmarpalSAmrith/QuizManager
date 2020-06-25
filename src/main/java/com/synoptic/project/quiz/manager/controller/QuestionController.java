@@ -47,12 +47,20 @@ public class QuestionController extends QuizManagerController<Question, Quiz> {
     Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Direction.ASC, "id");
     Page<Question> results = questionService.getAllQuestionsOrderedByQuestion(pageable);
     ModelAndView model = new ModelAndView(ROOT_FOLDER + INDEX_VIEW_NAME);
-    model.addObject("answersIteration",
-        IntStream.range(0, 5)
-            .boxed()
-            .toArray(Integer[]::new));
-    results.toList().get(0).getAnswers().get(0);
+    model.addObject("answersIteration", getAnswerLetters());
+
     return super.getAllResults(model, ROOT_QUESTION, pageNumber, pageSize, results);
+  }
+
+  private String[] getAnswerLetters() {
+    return IntStream.rangeClosed(1, 5)
+        .boxed()
+        .map(this::getCharForNumber)
+        .toArray(String[]::new);
+  }
+
+  private String getCharForNumber(int i) {
+    return i > 0 && i < 27 ? String.valueOf((char) (i + 64)) : null;
   }
 
   @GetMapping(ROOT_QUESTION + VIEW_URL + "{id}")
@@ -67,6 +75,7 @@ public class QuestionController extends QuizManagerController<Question, Quiz> {
     model.addObject("formType", "view");
     model.addObject("linkAction", linkAction + EDIT_URL);
     model.addObject("homeUri", linkAction);
+    model.addObject("answersIteration", getAnswerLetters());
     return model;
   }
 
@@ -81,9 +90,12 @@ public class QuestionController extends QuizManagerController<Question, Quiz> {
     model.addObject("formType", "edit");
     model.addObject("linkAction", linkAction + UPDATE_URL);
     model.addObject("homeUri", linkAction);
+    model.addObject("viewUri", linkAction + VIEW_URL);
     model.addObject("addAnswerAvailable", question.getAnswers().size() < 5);
-    model.addObject("addAnswerLink", ROOT_QUESTION + EDIT_URL + ADD_ANSWER_URL);
-    model.addObject("deleteAnswerLink", ROOT_QUESTION + EDIT_URL + DELETE_ANSWER_URL);
+    model.addObject("updateQuestionAvailable", question.getAnswers().size() > 2);
+    model.addObject("addAnswerLink", linkAction + EDIT_URL + ADD_ANSWER_URL);
+    model.addObject("deleteAnswerLink", linkAction + EDIT_URL + DELETE_ANSWER_URL);
+    model.addObject("answersIteration", getAnswerLetters());
     return model;
   }
 
@@ -105,23 +117,16 @@ public class QuestionController extends QuizManagerController<Question, Quiz> {
 
     question.getAnswers().remove(answer);
     answer.setQuestion(null);
-//    answerService.updateOrCreateAnswer(answer);
-//    questionService.updateOrCreateQuestion(question);
+    answerService.updateOrCreateAnswer(answer);
+    questionService.updateOrCreateQuestion(question);
     answerService.deleteAnswerById(id);
-//    TODO: How To:
-//     [ ] bind answer ID to delete button,
-//     [ ] retrieve answer,
-//     [ ] set answer question id for redirect,
-//     [ ] clear question from answer,
-//     [ ] clear answer from question,
-//     [ ] delete answer.
     return super.submitRedirect(ROOT_QUESTION + EDIT_URL + questionId);
   }
 
   @GetMapping(ROOT_QUESTION + ADD_URL)
   public ModelAndView addQuestion() {
-
-    return new ModelAndView(ROOT_FOLDER + NEW_VIEW_NAME);
+    return super.addResult(ROOT_FOLDER + NEW_VIEW_NAME,
+        ROOT_QUESTION, new Question(), QUESTION, ROOT_QUESTION);
   }
 
   @PostMapping(ROOT_QUESTION + UPDATE_URL + "{id}")
@@ -144,13 +149,13 @@ public class QuestionController extends QuizManagerController<Question, Quiz> {
   @PostMapping(ROOT_QUESTION + ADD_URL)
   public RedirectView createQuestion(@ModelAttribute Question question) {
     Question newQuestion = questionService.updateOrCreateQuestion(question);
-    return super.submitRedirect(ROOT_QUESTION + VIEW_URL + newQuestion.getId());
+    return super.submitRedirect(ROOT_QUESTION + EDIT_URL + newQuestion.getId());
   }
 
   @PostMapping(ROOT_QUESTION + DELETE_URL + "{id}")
   public RedirectView deleteQuestion(@PathVariable int id) {
     questionService.deleteQuestionById(id);
-    return submitRedirect(ROOT_QUIZ);
+    return submitRedirect(ROOT_QUESTION);
   }
 
 }

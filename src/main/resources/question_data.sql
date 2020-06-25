@@ -149,3 +149,4 @@ INSERT INTO quiz_manager.question(id, question) VALUES(148, 'Which actor perform
 INSERT INTO quiz_manager.question(id, question) VALUES(149, 'Which water sport is the official sport for the state of Hawaii?');
 INSERT INTO quiz_manager.question(id, question) VALUES(150, 'In the movie The Princess Bride, what is Westley’s response to the requests of Buttercup?');
 INSERT INTO quiz_manager.question(id, question) VALUES(151, 'What is the name of the company that published the Mario Kart video game?');
+INSERT INTO quiz_manager.question(id, question) VALUES(152, 'Will this work?');

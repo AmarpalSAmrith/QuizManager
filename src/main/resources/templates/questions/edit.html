@@ -40,27 +40,33 @@
         <div th:id="answers-edit" th:each="ans, iter : *{answers}">
 
           <div
-              th:replace="fragments/input :: input-group-radio('answers[__${iter.index}__].answer',
+              th:replace="fragments/input :: input-group-answer('answers[__${iter.index}__].answer',
                                              'answers[__${iter.index}__].correctAnswer',
                                              'answers[__${iter.index}__].id',
                                              #{text.answer}, ${formType == 'view'},
                                              ${iter.index + '-correctAnswer'},
-                                             ${deleteAnswerLink} + *{answers[__${iter.index}__].id})"
+                                             ${deleteAnswerLink} + *{answers[__${iter.index}__].id},
+                                             ${answersIteration[__${iter.index}__]})"
               th:remove="tag">...
           </div>
         </div>
 
         <div th:id="edit-question-submit" class="d-flex justify-content-center pt-2"
              th:if="${formType != 'view'}">
+          <div class="align-items-end w-75">
+            <button class="btn btn-info w-75" style="margin-top: 35px" type="submit"
+                    th:disabled="${!updateQuestionAvailable}"
+                    th:text="#{${'button.' + name + '.submit.' + formType}}">...
+            </button>
+          </div>
 
-          <button class="btn btn-info m-2 w-75" type="submit"
-                  th:text="#{${'button.' + name + '.submit.' + formType}}">...
-          </button>
-
-          <a class="btn btn-info m-2 w-75" th:if="${addAnswerAvailable}"
-             th:text="#{${'button.' + name + '.addAnswer.' + formType}}"
-              th:href="@{__${addAnswerLink + '{id}'}__(id=*{id})}">...
-          </a>
+          <div class="d-flex flex-column justify-items-center w-75" th:if="${addAnswerAvailable}">
+            <p class="m-2" th:text="#{text.add.question.warning}"></p>
+            <a class="btn btn-info mx-auto w-75"
+               th:text="#{${'button.' + name + '.addAnswer.' + formType}}"
+               th:href="@{__${addAnswerLink + '{id}'}__(id=*{id})}">...
+            </a>
+          </div>
         </div>
 
       </form>
@@ -73,7 +79,8 @@
         </a>
       </div>
       <div class="w-100">
-        <a class="btn btn-info m-2 w-75" th:text="#{button.done}" th:href="${homeUri}">
+        <a class="btn btn-info m-2 w-75" th:text="#{button.done}"
+           th:href="@{__${viewUri + '{id}'}__(id=${result.id})}">
           ...
         </a>
       </div>

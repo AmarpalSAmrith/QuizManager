@@ -96,7 +96,7 @@ public abstract class QuizManagerController<T, S> {
   }
 
   public ModelAndView addResult(String modelName, String linkAction, T result,
-      List<String> fields, String name, String viewUri) {
+      String name, String viewUri) {
 
     ModelAndView model = new ModelAndView(modelName);
     model.addObject("result", result);
@@ -105,7 +105,6 @@ public abstract class QuizManagerController<T, S> {
     model.addObject("viewUri", viewUri + VIEW_URL);
     model.addObject("homeUri", linkAction);
     model.addObject("formType", "add");
-    model.addObject("listOfFields", fields);
     return model;
   }
 
