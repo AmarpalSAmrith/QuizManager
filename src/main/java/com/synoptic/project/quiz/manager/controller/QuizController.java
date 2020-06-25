@@ -73,9 +73,7 @@ public class QuizController extends QuizManagerController<Quiz, Question> {
   @GetMapping(ROOT_QUIZ + ADD_QUESTION_URL + "{quizId}")
   public RedirectView addQuestionToQuiz(@PathVariable Integer quizId,
       @ModelAttribute(value = "addOption") Integer questionId) {
-    //FIXME: should this be a post?
-    quizService.addQuestion(quizId, questionService.findQuestionById(questionId)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid ID")));
+    quizService.addQuestion(quizId, questionService.findQuestionById(questionId));
     return new RedirectView(ROOT_QUIZ + EDIT_URL + quizId);
   }
 
@@ -105,15 +103,13 @@ public class QuizController extends QuizManagerController<Quiz, Question> {
   }
 
   @PostMapping(ROOT_QUIZ + ADD_URL)
-  public RedirectView createQuiz(@ModelAttribute Quiz quiz, HttpSession session) {
-    session.removeAttribute("quiz");
+  public RedirectView createQuiz(@ModelAttribute Quiz quiz) {
     Quiz newQuiz = quizService.createQuiz(quiz);
     return submitRedirect(ROOT_QUIZ + EDIT_URL + newQuiz.getId());
   }
 
   @PostMapping(ROOT_QUIZ + DELETE_URL + "{id}")
   public RedirectView deleteQuiz(@PathVariable int id) {
-    //FIXME: not working at all ask Ruben
     quizService.deleteQuizById(id);
     return submitRedirect(ROOT_QUIZ);
   }

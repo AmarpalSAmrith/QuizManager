@@ -14,9 +14,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <script src="/js/custom.js"></script>
   <link rel="icon" type="image/x-icon" href="/img/favicon.ico"/>
-  <script>
-
-  </script>
 </head>
 
 <body>
@@ -27,90 +24,46 @@
      th:remove="tag"></div>
 
 <div class="col-lg-7 col-md-12 mb-4 p-5 mx-auto">
-  <!-- Default form contact -->
+
   <div id="new-result-form" class="text-center border border-light p-5 indigo.accent-1 shadow-lg">
     <p class="h2 mb-4" th:text="#{__${'title.main.' + name + '.' + formType}__}">...</p>
 
-    <form th:object="${result}" th:action="@{__${linkActionTitle + '{id}'}__(id=*{id})}"
-          method="post">
-      <div class="question-container">
-        <p class="h4 mb-4" th:text="#{__${'title.' + name + '.' + formType}__}">...</p>
+    <div class="question-container">
+      <form th:object="${result}" th:action="@{__${linkAction + '{id}'}__(id=*{id})}" method="post">
+
         <div
-            th:replace="fragments/input :: input-form(${listOfFields}, ${formType == 'view'})"
+            th:replace="fragments/input :: input-disable-option('question', #{text.question},
+                                           ${formType == 'view'})"
             th:remove="tag">...
+        </div>
+
+        <div th:each="ans, iter : *{answers}">
+
+          <div
+              th:replace="fragments/input :: input-group-radio('answers[__${iter.index}__].answer',
+                                             'answers[__${iter.index}__].correctAnswer',
+                                             'answers[__${iter.index}__].id',
+                                             #{text.answer}, ${formType == 'view'},
+                                             ${iter.index + '-correctAnswer'})"
+              th:remove="tag">...
+          </div>
         </div>
 
         <div th:id="edit-name-button" class="d-flex justify-content-center pt-2"
              th:if="${formType != 'view'}">
+
           <button class="btn btn-info m-2 w-75" type="submit"
-                  th:text="#{${'button.' + name + '.submit.' + formType + '.name'}}">...
+                  th:text="#{${'button.' + name + '.submit.' + formType}}">...
           </button>
+
+          <a class="btn btn-info m-2 w-75" th:if="${addAnswerAvailable}"
+             th:text="#{${'button.' + name + '.addAnswer.' + formType}}"
+              th:href="@{__${addAnswerLink + '{id}'}__(id=*{id})}">...
+          </a>
         </div>
-      </div>
 
-    </form>
-
-    <div th:id="add-question-container" class="question-container my-3"
-         th:if="${formType != 'view'}">
-      <p class="h4 my-4" th:text="#{title.add.questions}"></p>
-      <form th:action="@{__${addOptionAction + '{id}'}__(id=*{id})}">
-        <select class="form-control add-option-field" id="add-options" name="addOption">
-          <option th:each="option : ${allOptions}" th:value="${option.id}"
-                  th:text="${option.question}">...
-          </option>
-        </select>
-
-        <div th:id="add-option-button" class="d-flex justify-content-center">
-          <div class="w-100">
-            <button type="submit" class="btn btn-info m-2 w-75"
-                    th:text="#{text.add.question}"></button>
-
-          </div>
-
-        </div>
       </form>
     </div>
-
-    <form th:object="${result}" th:action="@{__${linkAction + '{id}'}__(id=*{id})}" method="post">
-
-      <div class="question-container my-3">
-        <p class="h4 mb-4" th:text="#{title.view.questions}"></p>
-        <div id="question-table" class="overflow-auto" style="height: 400px">
-          <table id="edit-table" class="w-100">
-            <tbody class="colored-hover allResults">
-            <tr th:each="question, iter : *{questions}" th:id="${'result-' + iter.index}">
-              <td style="width: 50px">
-                <a th:text="${iter.index + 1}" th:href="${viewUri + question.id}"></a>
-              </td>
-              <!--TODO: use the variable "row" everywhere-->
-
-              <td th:with="row = *{questions[__${iter.index}__]}" style="width: 1250px">
-                <a th:text="${row.question}" th:href="${viewUri + question.id}"></a>
-                <input th:field="*{questions[__${iter.index}__].id}"
-                       th:name="*{questions[__${iter.index}__].id}"
-                       hidden="hidden">
-              </td>
-              <td th:if="${formType == 'edit'}">
-                <a class="add-records-button row-link"
-                   th:onclick="|myFunction('result-${iter.index}')|"
-                   th:text="#{button.delete.question}">...</a>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-
-        </div>
-
-        <!-- Send button -->
-        <div id="update-question" class="d-flex justify-content-center pt-2"
-             th:if="${formType != 'view'}">
-          <button class="btn btn-info m-2 w-75" type="submit"
-                  th:text="#{${'button.' + name + '.submit.' + formType + '.questions'}}">...
-          </button>
-
-        </div>
-      </div>
-    </form>
 
     <div th:if="${formType != 'view'}" class="d-flex w-100 px-3 pt-2">
       <div class="w-100">

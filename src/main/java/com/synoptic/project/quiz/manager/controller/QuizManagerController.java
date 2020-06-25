@@ -30,6 +30,8 @@ public abstract class QuizManagerController<T, S> {
   protected static final String VIEW_URL = "/view/";
   protected static final String ADD_URL = "/add";
   protected static final String ADD_QUESTION_URL = "add-question/";
+  protected static final String ADD_ANSWER_URL = "add-answer/";
+  protected static final String DELETE_ANSWER_URL = "delete-answer/";
   protected static final String ADD_QUIZ_NAME_URL = "quiz-name/";
   //  ================== VIEW_NAME =============================
   protected static final String INDEX_VIEW_NAME = "/index";

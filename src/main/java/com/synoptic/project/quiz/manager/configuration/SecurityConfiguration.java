@@ -59,12 +59,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     http.csrf().disable()
         .authorizeRequests()
-//        TODO: Add antMatchers from the DB
         .antMatchers("/", "/login").permitAll()
         .antMatchers(editOnlyUrls).hasRole(ROLE_EDIT)
         .antMatchers(viewOnlyUrls).hasAnyRole(ROLE_VIEW, ROLE_EDIT)
         .antMatchers(restrictedOnlyUrls).hasAnyRole(ROLE_RESTRICTED, ROLE_VIEW, ROLE_EDIT)
-        //TODO: add customised login if neccessary
         .and().formLogin()
         .and().logout()
         .logoutUrl("/logout")

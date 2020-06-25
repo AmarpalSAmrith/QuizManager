@@ -22,16 +22,19 @@ import lombok.ToString;
 @ToString(exclude = {"answers", "quizzes"})
 public class Question {
 
-  @ManyToMany(mappedBy = "questions", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  List<Quiz> quizzes;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column
   private Integer id;
+
   @Column
   private String question;
+
   @OneToMany(mappedBy = "question")
   private List<Answer> answers;
+
+  @ManyToMany(mappedBy = "questions", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  List<Quiz> quizzes;
 
   @Override
   public boolean equals(Object obj) {

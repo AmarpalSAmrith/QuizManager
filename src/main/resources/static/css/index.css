@@ -175,12 +175,7 @@ tr th:last-child {
   border-radius: .25rem
 }
 
-.capitalize {
-  text-transform: capitalize;
-}
-
 #title-background {
-  /*TODO: add title image*/
   background-image: url('/images/images.jpeg');
   background-repeat: repeat-x;
   background-color: white;

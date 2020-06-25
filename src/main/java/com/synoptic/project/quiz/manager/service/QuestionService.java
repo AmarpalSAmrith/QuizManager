@@ -3,7 +3,6 @@ package com.synoptic.project.quiz.manager.service;
 import com.synoptic.project.quiz.manager.model.Question;
 import com.synoptic.project.quiz.manager.repository.QuestionRepository;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,16 +25,22 @@ public class QuestionService {
     return questionRepository.findAll(pageable);
   }
 
-  public List<Question> getAllQuestions(){
-    return questionRepository.findAll(Sort.by(Direction.ASC,"question"));
+  public List<Question> getAllQuestions() {
+    return questionRepository.findAll(Sort.by(Direction.ASC, "question"));
   }
 
-  public Optional<Question> findQuestionById(Integer id) {
-    return questionRepository.findById(id);
+  public Question findQuestionById(Integer id) {
+    return questionRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid Question ID: " + id));
   }
 
   public Question updateOrCreateQuestion(Question question) {
+
     return questionRepository.save(question);
+  }
+
+  public Question getOne(Integer id)  {
+    return questionRepository.getOne(id);
   }
 
   public void deleteQuestionById(int id) {

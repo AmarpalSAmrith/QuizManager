@@ -21,25 +21,6 @@
        th:remove="tag"></div>
 </div>
 
-<div th:fragment="input-password(fieldName, text, formType)" th:remove="tag">
-  <div class="flex-fill">
-    <script th:inline="javascript">
-      /*<![CDATA[*/
-      window.onload = function () {
-        onloadFunction(); // Call your favourite method if the variable is true
-      };
-      /*]]>*/
-    </script>
-
-    <input type="text" class="form-control" style="display: none"
-           th:for="${fieldName}" th:id="${fieldName}" th:name="${fieldName}"
-           th:value="*{__${fieldName}__}"
-           th:placeholder="#{__${'text.' + fieldName}__}"
-           th:disabled="${formType}"
-    >
-  </div>
-</div>
-
 <div th:fragment="input-pure(fieldName, text)">
   <div th:replace=" :: input-disable-option(${fieldName}, ${text}, false)" th:remove="tag"></div>
 </div>
@@ -57,4 +38,24 @@
     </th:block>
 
   </fieldset>
+</div>
+
+<div th:fragment="input-group-radio(fieldName, radioFieldName, idFieldName, text, formType, checkboxId)">
+  <script>
+
+  </script>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <div class="input-group-text">
+        <span class="p-1" id="inputGroup-sizing-sm" th:text="#{text.correct}"></span>
+        <input type="checkbox" class="answer-checkbox" th:field="*{__${radioFieldName}__}" aria-label="Radio button for following text input"
+               th:value="*{__${radioFieldName}__}" th:disabled="${formType}" th:id="${checkboxId}">
+      </div>
+    </div>
+
+    <input type="hidden" th:field="*{__${idFieldName}__}">
+
+    <input type="text" th:field="*{__${fieldName}__}" th:placeholder="${text}" class="form-control"
+           aria-label="Text input with radio button" th:disabled="${formType}">
+  </div>
 </div>

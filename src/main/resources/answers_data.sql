@@ -32,7 +32,7 @@ INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Sh
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Myspace', true, 31);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Bebo', true, 31);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Jupiter', true, 32);
-INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Mecury', true, 32);
+INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Mercury', true, 32);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Red, yellow, green', false, 33);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('One Direction', false, 34);
 INSERT INTO quiz_manager.answer(answer, correct_answer, question_id) VALUES ('Picasso', false, 35);
