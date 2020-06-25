@@ -4,35 +4,30 @@
 <head>
   <meta charset="UTF-8">
   <title>Access denied</title>
+  <link rel="icon" type="image/x-icon" href="/img/favicon.ico"/>
+  <link rel="stylesheet" type="text/css" href="/css/index.css"/>
 </head>
-<body>
-<!-- Modify this according to your requirement -->
-<h3>
-  Redirecting to <a th:href="@{'/'}">Home</a> after <span id="countdown">5</span> seconds
-</h3>
-<!-- JavaScript part -->
+<body class="error-page">
+<div class="" style="">
+  <h3>
+    Redirecting to <a th:href="@{'/'}">Home</a> after <span id="countdown">5</span> seconds
+  </h3>
+</div>
 <script type="text/javascript">
 
-  // Total seconds to wait
   var seconds = 5;
 
   function countdown() {
     seconds = seconds - 1;
     if (seconds < 0) {
-      // Change your redirection link here
       window.location.href = "/";
     } else {
-      // Update remaining seconds
       document.getElementById("countdown").innerHTML = seconds;
-      // Count down using javascript
       window.setTimeout("countdown()", 1000);
     }
   }
 
-  // Run countdown function
   countdown();
-
 </script>
-<a th:href="@{'/'}">click to redirect home</a>
 </body>
 </html>

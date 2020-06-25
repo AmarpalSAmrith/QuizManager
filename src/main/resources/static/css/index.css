@@ -141,7 +141,7 @@ tr th:last-child {
   height: 424px;
 }
 
-#table-body-container{
+#table-body-container {
   height: 83.5%;
 }
 
@@ -209,4 +209,11 @@ tr th:last-child {
 
 . button-delete-answer {
   text-align: center;
+}
+
+.error-page {
+  background-image: url("https://cdn.pixabay.com/photo/2016/03/30/15/40/castle-1290860_960_720.jpg");
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: top;
 }
