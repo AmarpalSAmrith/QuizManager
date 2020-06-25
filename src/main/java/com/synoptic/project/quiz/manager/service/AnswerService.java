@@ -22,4 +22,13 @@ public class AnswerService {
     questionRef.getAnswers().forEach(this::updateOrCreateAnswer);
     return questionRef;
   }
+
+  public Answer findAnswerById(Integer id) {
+    return answerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid Answer ID: " + id));
+  }
+
+  public void deleteAnswerById(Integer id) {
+    answerRepository.deleteById(id);
+  }
+
 }

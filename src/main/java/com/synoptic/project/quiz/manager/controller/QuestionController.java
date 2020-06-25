@@ -83,6 +83,7 @@ public class QuestionController extends QuizManagerController<Question, Quiz> {
     model.addObject("homeUri", linkAction);
     model.addObject("addAnswerAvailable", question.getAnswers().size() < 5);
     model.addObject("addAnswerLink", ROOT_QUESTION + EDIT_URL + ADD_ANSWER_URL);
+    model.addObject("deleteAnswerLink", ROOT_QUESTION + EDIT_URL + DELETE_ANSWER_URL);
     return model;
   }
 
@@ -98,14 +99,23 @@ public class QuestionController extends QuizManagerController<Question, Quiz> {
 
   @GetMapping(ROOT_QUESTION + EDIT_URL + DELETE_ANSWER_URL + "{id}")
   public RedirectView deleteAnswer(@PathVariable Integer id) {
+    Answer answer = answerService.findAnswerById(id);
+    Integer questionId = answer.getQuestion().getId();
+    Question question = questionService.findQuestionById(questionId);
+
+    question.getAnswers().remove(answer);
+    answer.setQuestion(null);
+//    answerService.updateOrCreateAnswer(answer);
+//    questionService.updateOrCreateQuestion(question);
+    answerService.deleteAnswerById(id);
 //    TODO: How To:
 //     [ ] bind answer ID to delete button,
-//     [ ] retireve answer,
+//     [ ] retrieve answer,
 //     [ ] set answer question id for redirect,
 //     [ ] clear question from answer,
 //     [ ] clear answer from question,
-//     [ ] delete question
-    return super.submitRedirect(ROOT_QUESTION + EDIT_URL + id);
+//     [ ] delete answer.
+    return super.submitRedirect(ROOT_QUESTION + EDIT_URL + questionId);
   }
 
   @GetMapping(ROOT_QUESTION + ADD_URL)

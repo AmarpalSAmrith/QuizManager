@@ -37,19 +37,20 @@
             th:remove="tag">...
         </div>
 
-        <div th:each="ans, iter : *{answers}">
+        <div th:id="answers-edit" th:each="ans, iter : *{answers}">
 
           <div
               th:replace="fragments/input :: input-group-radio('answers[__${iter.index}__].answer',
                                              'answers[__${iter.index}__].correctAnswer',
                                              'answers[__${iter.index}__].id',
                                              #{text.answer}, ${formType == 'view'},
-                                             ${iter.index + '-correctAnswer'})"
+                                             ${iter.index + '-correctAnswer'},
+                                             ${deleteAnswerLink} + *{answers[__${iter.index}__].id})"
               th:remove="tag">...
           </div>
         </div>
 
-        <div th:id="edit-name-button" class="d-flex justify-content-center pt-2"
+        <div th:id="edit-question-submit" class="d-flex justify-content-center pt-2"
              th:if="${formType != 'view'}">
 
           <button class="btn btn-info m-2 w-75" type="submit"
