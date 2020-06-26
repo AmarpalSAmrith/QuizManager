@@ -15,10 +15,11 @@
   <script src="/js/custom.js"></script>
   <link rel="icon" type="image/x-icon" href="/img/favicon.ico"/>
   <script>
-    var $checkboxes = $("input[type='checkbox']");
-
-    $checkboxes.change(function(){
-      $checkboxes.not(this).removeAttr('checked');
+    $(document).ready(function() {
+      $(".answer-checkbox").change(function() {
+        $(".answer-checkbox").prop('checked', false);
+        $(this).prop('checked', true);
+      });
     });
   </script>
 </head>

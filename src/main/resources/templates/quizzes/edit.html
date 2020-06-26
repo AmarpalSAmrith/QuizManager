@@ -82,7 +82,6 @@
               <td style="width: 50px">
                 <a th:text="${iter.index + 1}" th:href="${viewUri + question.id}"></a>
               </td>
-              <!--TODO: use the variable "row" everywhere-->
 
               <td th:with="row = *{questions[__${iter.index}__]}" style="width: 1250px">
                 <a th:text="${row.question}" th:href="${viewUri + question.id}"></a>

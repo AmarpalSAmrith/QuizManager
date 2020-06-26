@@ -160,13 +160,6 @@ tr th:last-child {
   padding: 15px;
 }
 
-#new-result-form {
-  /*TODO: add form image*/
-  /*background-image: url("/images/.jpg");*/
-  background-repeat: repeat-y;
-  background-color: whitesmoke;
-}
-
 .paginationOverride {
   display: -ms-flexbox;
   display: flex;
