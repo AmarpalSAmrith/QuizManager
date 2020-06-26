@@ -2,8 +2,6 @@ package com.synoptic.project.quiz.manager.controller;
 
 import com.synoptic.project.quiz.manager.model.Pagination;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -20,7 +18,6 @@ public abstract class QuizManagerController<T, S> {
   protected static final String QUESTION = "question";
 
   //  ====================== URLs ======================
-  protected static final String ROOT_USER = "/user";
   protected static final String ROOT_QUIZ = "/" + QUIZ;
   protected static final String ROOT_QUESTION = "/" + QUESTION;
   protected static final String HOME_URL = "/home/";
@@ -38,24 +35,6 @@ public abstract class QuizManagerController<T, S> {
   protected static final String NEW_VIEW_NAME = "/new";
   protected static final String EDIT_VIEW_NAME = "/edit";
 
-  protected static boolean isValidInteger(String number) {
-    try {
-      int parsedInteger = Integer.parseInt(number);
-      if (parsedInteger > 0) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (NumberFormatException e) {
-      return false;
-    }
-  }
-
-  protected static List<String> getFieldsList(List<String> fields, Predicate<String> predicate) {
-    return fields.stream()
-        .filter(predicate)
-        .collect(Collectors.toList());
-  }
 
   public ModelAndView getAllResults(ModelAndView model, String uri, Integer pageNumber,
       Integer pageSize, Page<T> results) {

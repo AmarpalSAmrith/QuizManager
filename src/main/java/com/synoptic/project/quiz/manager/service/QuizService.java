@@ -75,8 +75,4 @@ public class QuizService {
     quizRepository.save(quiz);
     quizRepository.deleteById(id);
   }
-
-  public void deleteQuestionFromQuiz(Integer id) {
-
-  }
 }

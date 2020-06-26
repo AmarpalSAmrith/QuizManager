@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -20,6 +21,7 @@ import javax.persistence.CascadeType;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @ToString(exclude = {"questions"})
 public class Quiz {
 
