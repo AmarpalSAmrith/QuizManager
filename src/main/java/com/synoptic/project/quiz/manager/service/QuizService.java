@@ -37,10 +37,12 @@ public class QuizService {
     List<Question> questions = quizComplete.getQuestions();
 
     quiz.setName(quizComplete.getName());
-    quiz.setQuestions(quiz.getQuestions().stream()
-        .filter(i -> i.getId() != null)
-        .map(i -> questions.get(questions.indexOf(i)))
-        .collect(Collectors.toList()));
+    if (quiz.getQuestions() != null) {
+      quiz.setQuestions(quiz.getQuestions().stream()
+          .filter(i -> i.getId() != null)
+          .map(i -> questions.get(questions.indexOf(i)))
+          .collect(Collectors.toList()));
+    }
     return quizRepository.save(quiz);
   }
 

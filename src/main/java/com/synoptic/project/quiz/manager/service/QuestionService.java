@@ -53,12 +53,14 @@ public class QuestionService {
 
   public void deleteQuestionById(int id) {
     Question question = findQuestionById(id);
-    question.getQuizzes().forEach(quiz -> {
-          quiz.setQuestions(quiz.getQuestions().stream()
-              .filter(question1 -> !question1.getId().equals(id))
-              .collect(Collectors.toList()));
-        }
-    );
+    if (question.getQuizzes() != null) {
+      question.getQuizzes().forEach(quiz -> {
+            quiz.setQuestions(quiz.getQuestions().stream()
+                .filter(question1 -> !question1.getId().equals(id))
+                .collect(Collectors.toList()));
+          }
+      );
+    }
     questionRepository.save(question);
     question.setQuizzes(new ArrayList<>());
     question.getAnswers().forEach(answer -> answerService.deleteAnswer(answer));

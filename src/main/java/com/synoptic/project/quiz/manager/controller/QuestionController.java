@@ -6,6 +6,8 @@ import com.synoptic.project.quiz.manager.model.Question;
 import com.synoptic.project.quiz.manager.model.Quiz;
 import com.synoptic.project.quiz.manager.service.AnswerService;
 import com.synoptic.project.quiz.manager.service.QuestionService;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -101,6 +103,7 @@ public class QuestionController extends QuizManagerController<Question, Quiz> {
 
   @GetMapping(ROOT_QUESTION + EDIT_URL + ADD_ANSWER_URL + "{id}")
   public RedirectView addAnswer(@PathVariable Integer id) {
+
     Question question = questionService.findQuestionById(id);
     Answer answer = answerService.updateOrCreateAnswer(new Answer());
     answer.setQuestion(question);
@@ -147,8 +150,17 @@ public class QuestionController extends QuizManagerController<Question, Quiz> {
   }
 
   @PostMapping(ROOT_QUESTION + ADD_URL)
-  public RedirectView createQuestion(@ModelAttribute Question question) {
-    Question newQuestion = questionService.updateOrCreateQuestion(question);
+  public RedirectView createQuestion(@ModelAttribute Question questionModel) {
+    Question newQuestion = questionService.updateOrCreateQuestion(questionModel);
+    List<Answer> answerList = new ArrayList<>();
+    int defaultAnswersProvided = 3;
+    IntStream.range(0, defaultAnswersProvided).forEach(i -> {
+      Answer answer = answerService.updateOrCreateAnswer(new Answer());
+      answer.setQuestion(newQuestion);
+      answerList.add(answer);
+    });
+    newQuestion.setAnswers(answerList);
+    questionService.updateOrCreateQuestion(newQuestion);
     return super.submitRedirect(ROOT_QUESTION + EDIT_URL + newQuestion.getId());
   }
 
