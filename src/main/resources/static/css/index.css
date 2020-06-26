@@ -160,6 +160,11 @@ tr th:last-child {
   padding: 15px;
 }
 
+#new-result-form {
+  background-repeat: repeat-y;
+  background-color: whitesmoke;
+}
+
 .paginationOverride {
   display: -ms-flexbox;
   display: flex;

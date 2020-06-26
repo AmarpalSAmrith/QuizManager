@@ -4,6 +4,7 @@ import com.synoptic.project.quiz.manager.model.Question;
 import com.synoptic.project.quiz.manager.repository.QuestionRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,8 +37,13 @@ public class QuestionService {
   }
 
   public Question findQuestionById(Integer id) {
-    return questionRepository.findById(id)
+    return findOptionalQuestionById(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid Question ID: " + id));
+  }
+
+
+  public Optional<Question> findOptionalQuestionById(Integer id) {
+    return questionRepository.findById(id);
   }
 
   public Question updateOrCreateQuestion(Question question) {

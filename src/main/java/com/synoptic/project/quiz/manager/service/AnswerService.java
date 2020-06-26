@@ -3,6 +3,7 @@ package com.synoptic.project.quiz.manager.service;
 import com.synoptic.project.quiz.manager.model.Answer;
 import com.synoptic.project.quiz.manager.model.Question;
 import com.synoptic.project.quiz.manager.repository.AnswerRepository;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,7 +25,13 @@ public class AnswerService {
   }
 
   public Answer findAnswerById(Integer id) {
-    return answerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid Answer ID: " + id));
+    return findOptionalAnswerById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid Answer ID: " + id));
+  }
+
+
+  public Optional<Answer> findOptionalAnswerById(Integer id) {
+    return answerRepository.findById(id);
   }
 
   public void deleteAnswerById(Integer id) {

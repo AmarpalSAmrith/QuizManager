@@ -50,7 +50,7 @@ public class QuizServiceTest {
     assertEquals(quizPage, result);
   }
 
-  private List<Quiz> getQuizList(int maxSize) {
+  private static List<Quiz> getQuizList(int maxSize) {
 
     String[] alphabetList = IntStream.range(0, (int) Math.ceil((double) maxSize / 26))
         .mapToObj(i -> Arrays.stream("abcdefghijklmnopqrstuvwxyz".split("")).toArray(String[]::new))
@@ -72,10 +72,9 @@ public class QuizServiceTest {
         .name("quiz")
         .questions(new ArrayList<>())
         .build());
-    when(quizService.findQuizById(1)).thenReturn(quiz);
+    when(quizRepositoryMock.findById(1)).thenReturn(quiz);
     Optional<Quiz> result = quizService.findQuizById(1);
     assertEquals(quiz,result);
   }
-
 
 }
