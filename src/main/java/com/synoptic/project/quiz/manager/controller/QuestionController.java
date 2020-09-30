@@ -28,8 +28,7 @@ public class QuestionController extends QuizManagerController<Question, Quiz> {
   public static final String ROOT_FOLDER = "questions";
   private final QuestionService questionService;
   private final AnswerService answerService;
-
-
+  
   @Autowired
   public QuestionController(QuestionService questionService,
       AnswerService answerService) {
